@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
-// Getter for Transporter config
+
+// Body Parser Middleware
+app.use(bodyParser.urlencoded({extended: false}));
+
+// Getter for Nodemailer Transporter
 let getTransporter = () => {
   const smtpConfig = {
   service: 'gmail',
@@ -12,7 +16,14 @@ let getTransporter = () => {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   }    
+  }
+  
+  // Create the SMTP transporter with config
+  let transporter = nodemailer.createTransporter(smtpTransport(smtpConfig));
+  return transporter;
 }
+
+
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
