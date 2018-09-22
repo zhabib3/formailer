@@ -23,7 +23,10 @@ let getTransporter = () => {
   return transporter;
 }
 
-
+app.post('/mail', (req, res) => {
+  let message = req.body.message;
+  let senderName = req.
+});
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
