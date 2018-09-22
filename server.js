@@ -25,7 +25,10 @@ let getTransporter = () => {
 
 app.post('/mail', (req, res) => {
   let message = req.body.message;
-  let senderName = req.
+  let senderName = req.body.name;
+  let senderEmail = req.body.email;
+  
+  res.send();
 });
 
 // http://expressjs.com/en/starter/static-files.html
