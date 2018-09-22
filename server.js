@@ -1,12 +1,18 @@
-// server.js
-// where your node app starts
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 
-// init project
-var express = require('express');
-var app = express();
-
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+// Getter for Transporter config
+let getTransporter = () => {
+  const smtpConfig = {
+  service: 'gmail',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }    
+}
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -14,6 +20,10 @@ app.use(express.static('public'));
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
+});
+
+app.get('/api', (req, res) => {
+  res.json({name: "Test"});
 });
 
 // listen for requests :)
