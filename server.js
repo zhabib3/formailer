@@ -28,8 +28,27 @@ app.post('/mail', (req, res) => {
   let senderName = req.body.name;
   let senderEmail = req.body.email;
   
-  res.send();
+  res.redirect('/'); // Redirect to same page
+  sendEmail(senderName, senderEmail, message);
 });
+
+
+const sendEmail = (name, email, message) => {
+  let mailOptions = {
+    from: `"${name}" <${email}>`,
+    to: 'zhabib@ufl.edu',
+    subject: `New Message from ${name} on Portfolio`,
+    text: `${message}`
+  };
+  
+  // Send email via SMTP with defined options
+  let transporter = getTransporter();
+  transporter.sendMail(mailOptions, (err) => {
+    if (err) return console.log(err);
+    console.log('Email Sent!');
+  });
+  
+}
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
