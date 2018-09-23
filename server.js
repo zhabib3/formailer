@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Getter for Nodemailer Transporter
-let getTransporter = (nodemailer) => {
+let getTransporter = () => {
   const smtpConfig = {
   service: 'gmail',
   auth: {
@@ -18,17 +18,17 @@ let getTransporter = (nodemailer) => {
 }
   
   // Create the SMTP transporter with config
-  let transporter = nodemailer.createTransporter(smtpTransport(smtpConfig));
+  let transporter = nodemailer.createTransport(smtpTransport(smtpConfig));
   return transporter;
-}
+};
 
 app.post('/mail', (req, res) => {
   let message = req.body.message;
   let senderName = req.body.name;
   let senderEmail = req.body.email;
-  
-  sendEmail(senderName, senderEmail, message);
-  res.redirect(req.hostname); // Redirect to same page
+  const baseURL = process.env.ORIG_URL;
+  // sendEmail(senderName, senderEmail, message);
+  res.redirect(baseURL); // Redirect to same page
 });
 
 
