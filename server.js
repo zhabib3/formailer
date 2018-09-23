@@ -1,22 +1,21 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
+let nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
-
+const app = express();
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Getter for Nodemailer Transporter
-let getTransporter = () => {
+let getTransporter = (nodemailer) => {
   const smtpConfig = {
   service: 'gmail',
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   }    
-  }
+}
   
   // Create the SMTP transporter with config
   let transporter = nodemailer.createTransporter(smtpTransport(smtpConfig));
@@ -28,8 +27,8 @@ app.post('/mail', (req, res) => {
   let senderName = req.body.name;
   let senderEmail = req.body.email;
   
-  res.redirect('/'); // Redirect to same page
   sendEmail(senderName, senderEmail, message);
+  res.redirect(req.hostname); // Redirect to same page
 });
 
 
