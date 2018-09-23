@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-let nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
 const app = express();
@@ -27,7 +27,8 @@ app.post('/mail', (req, res) => {
   let senderName = req.body.name;
   let senderEmail = req.body.email;
   const baseURL = process.env.ORIG_URL;
-  // sendEmail(senderName, senderEmail, message);
+  
+  sendEmail(senderName, senderEmail, message);
   res.redirect(baseURL); // Redirect to same page
 });
 
@@ -49,16 +50,9 @@ const sendEmail = (name, email, message) => {
   
 }
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
-
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-});
-
-app.get('/api', (req, res) => {
-  res.json({name: "Test"});
+  response.send("Hi! This is a server endpoint for Formailer! For more info goto: s");
 });
 
 // listen for requests :)
